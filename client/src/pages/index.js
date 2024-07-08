@@ -1,10 +1,12 @@
+import Layout from "../components/Layout";
 import PostList from "../components/PostList";
+import AddPost from "../components/AddPost";
 
 export default function Home() {
   return (
-    <div>
-      <h1>Personal Blog</h1>
+    <Layout>
       <PostList />
-    </div>
+      <AddPost />
+    </Layout>
   );
 }

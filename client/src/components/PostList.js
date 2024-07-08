@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import styles from "./PostList.module.css";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -14,12 +15,12 @@ const PostList = () => {
   }, []);
 
   return (
-    <div>
+    <div className={styles.postList}>
       {posts.map((post) => (
-        <div key={post.id}>
+        <div key={post.id} className={styles.post}>
           <h2>{post.title}</h2>
           <p>{post.content}</p>
-          <p>Tags: {post.tags}</p>
+          <p className={styles.tags}>Tags: {post.tags}</p>
         </div>
       ))}
     </div>
