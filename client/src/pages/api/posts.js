@@ -15,8 +15,8 @@ const ADD_POST = gql`
 `;
 
 const GET_POSTS = gql`
-  {
-    posts {
+  query ($tag: String) {
+    posts(tag: $tag) {
       id
       title
       content
@@ -31,7 +31,8 @@ export default async function handler(req, res) {
     const response = await request(API_URL, ADD_POST, { title, content, tags });
     res.status(200).json(response.addPost);
   } else {
-    const response = await request(API_URL, GET_POSTS);
+    const { tag } = req.query;
+    const response = await request(API_URL, GET_POSTS, { tag });
     res.status(200).json(response.posts);
   }
 }

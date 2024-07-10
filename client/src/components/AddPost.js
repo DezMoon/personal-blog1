@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import styles from "./AddPost.module.css";
 
 const AddPost = () => {
   const [title, setTitle] = useState("");
@@ -9,14 +8,31 @@ const AddPost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("/api/posts", { title, content, tags });
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("You must be logged in to add a post");
+      return;
+    }
+
+    await axios.post(
+      "/api/posts",
+      { title, content, tags },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
     setTitle("");
     setContent("");
     setTags("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Title"
@@ -32,7 +48,7 @@ const AddPost = () => {
       />
       <input
         type="text"
-        placeholder="Tags (comma separated)"
+        placeholder="Tags"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
         required
